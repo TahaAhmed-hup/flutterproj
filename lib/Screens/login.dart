@@ -2,12 +2,12 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/files/WelcomePage.dart';
+import 'package:flutter_application_3/Screens/WelcomePage.dart';
 import 'package:flutter_application_3/widgets/app_button.dart';
 
 class login extends StatefulWidget {
-  const login({super.key, required this.title});
-  final String title;
+  const login({super.key, });
+  
 
   @override
   State<login> createState() => _MyLoinPageState();
@@ -15,8 +15,8 @@ class login extends StatefulWidget {
 
 class _MyLoinPageState extends State<login> {
   TextEditingController PhoneNumcontroller = TextEditingController();
-    TextEditingController passwordcontroller = TextEditingController();
-    String data=" ";
+  TextEditingController passwordcontroller = TextEditingController();
+  String data = " ";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -72,14 +72,20 @@ class _MyLoinPageState extends State<login> {
                     if (kDebugMode) {
                       print("Logged in");
                     }
-                    Navigator.push(
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => WelcomePage(
+                    //               data: PhoneNumcontroller.text,
+                    //             ))
+                    //             );
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WelcomePage(
                                   data: PhoneNumcontroller.text,
-                                ))
-                                );
-                                passwordcontroller.clear();
+                                )));
+                    passwordcontroller.clear();
                   }
                 },
               ),
@@ -97,8 +103,4 @@ class _MyLoinPageState extends State<login> {
       ),
     );
   }
-  
- 
-
-
 }

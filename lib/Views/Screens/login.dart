@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, camel_case_types, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_3/Screens/WelcomePage.dart';
+import 'package:flutter_application_3/Views/Screens/WelcomePage.dart';
 import 'package:flutter_application_3/widgets/app_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class login extends StatefulWidget {
   const login({super.key, });
@@ -67,7 +68,7 @@ class _MyLoinPageState extends State<login> {
               AppButton(
                 label: "Log in",
                 color: Colors.blue[300]!,
-                onTap: () {
+                onTap: () async {
                   if (_formKey.currentState!.validate()) {
                     if (kDebugMode) {
                       print("Logged in");
@@ -79,12 +80,12 @@ class _MyLoinPageState extends State<login> {
                     //               data: PhoneNumcontroller.text,
                     //             ))
                     //             );
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('user_Phone_number', PhoneNumcontroller.text);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WelcomePage(
-                                  data: PhoneNumcontroller.text,
-                                )));
+                            builder: (context) =>const WelcomePage()));
                     passwordcontroller.clear();
                   }
                 },

@@ -1,6 +1,5 @@
-// ignore_for_file: file_names, non_constant_identifier_names
+// ignore_for_file: file_names, non_constant_identifier_names, unnecessary_null_comparison
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_3/Models/Carts_Model.dart';
 import 'package:flutter_application_3/Service/Carts_Service.dart';
@@ -13,73 +12,60 @@ class CartsScreen extends StatefulWidget {
 }
 
 class _CartsScreenState extends State<CartsScreen> {
-  List<Cart> CartsList = [];
-  Cart? selectedCart;
-  Future<void> getData() async {
-    try {
-      CartsList = await CartsService.getCartsData();
-      setState(() {});
-    } catch (error) {
-      if (kDebugMode) {
-        print('Error fetching data: $error');
-      }
-      // Handle error appropriately, e.g., show a snackbar
-    }
-  }
-
-
+  late List<Product> cart = [];
   @override
   void initState() {
     super.initState();
     getData();
   }
 
+  Future<void> getData() async {
+    cart = await CartsService.getCartsData();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Carts Page'),
+        title: const Text('Shopping cart'),
       ),
-      body: _buildBody(),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: ListView.builder(
+          itemCount: cart.length, // 1 for cart details
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey, borderRadius: BorderRadius.circular(7)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text('Cart ID : ${cart[index].id}'),
+                    Text('Total Price : \$${cart[index].price}'),
+                    Text('Total quantity : ${cart[index].quantity}'),
+                    Text('Total Products : ${cart[index].total}'),
+                    Text(
+                        'discountPercentage : \$${cart[index].discountPercentage}'),
+                    Text('DiscountedPrice : \$${cart[index].discountedPrice}'),
+                    const SizedBox(height: 10),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('Products: ${cart[index].title}'),
+                          const Icon(Icons.shopping_cart_checkout)
+                        ])
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
-  Widget _buildBody() {
-    if (CartsList.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    } else {
-      return Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: CartsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(CartsList[index].id.toString()),
-                  onTap: () {
-                    setState(() {
-                      selectedCart = CartsList[index];
-                    });
-                  },
-                );
-              },
-            ),
-          ),
-          if (selectedCart != null)
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              color: Colors.grey[200],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Selected Cart ID: ${selectedCart!.id}'),
-                ],
-              ),
-            ),
-        ],
-      );
-    }
-  }
 }
-

@@ -5,12 +5,12 @@ import 'package:flutter_application_3/Models/Carts_Model.dart';
 
 class CartsService {
   static final dio = Dio();
-  static Future<List<Cart>> getCartsData() async {
-    final response = await dio.get("https://dummyjson.com/carts");
+  static Future<List<Product>> getCartsData() async {
+    final response = await dio.get('https://dummyjson.com/carts/1');
 
     var data = response.data;
-    CartsModel cartsModel = CartsModel.fromJson(data);
+    CartsModel cartModel = CartsModel.fromJson(data);
 
-    return cartsModel.carts ?? [];
+    return cartModel.products ?? [];
   }
 }

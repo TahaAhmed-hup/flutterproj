@@ -2,34 +2,6 @@
 // ignore_for_file: file_names
 
 class CartsModel {
-    List<Cart>? carts;
-    int? total;
-    int? skip;
-    int? limit;
-
-    CartsModel({
-        this.carts,
-        this.total,
-        this.skip,
-        this.limit,
-    });
-
-    factory CartsModel.fromJson(Map<String, dynamic> json) => CartsModel(
-        carts: json["carts"] == null ? [] : List<Cart>.from(json["carts"]!.map((x) => Cart.fromJson(x))),
-        total: json["total"],
-        skip: json["skip"],
-        limit: json["limit"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "carts": carts == null ? [] : List<dynamic>.from(carts!.map((x) => x.toJson())),
-        "total": total,
-        "skip": skip,
-        "limit": limit,
-    };
-}
-
-class Cart {
     int? id;
     List<Product>? products;
     int? total;
@@ -38,7 +10,7 @@ class Cart {
     int? totalProducts;
     int? totalQuantity;
 
-    Cart({
+    CartsModel({
         this.id,
         this.products,
         this.total,
@@ -48,7 +20,7 @@ class Cart {
         this.totalQuantity,
     });
 
-    factory Cart.fromJson(Map<String, dynamic> json) => Cart(
+    factory CartsModel.fromJson(Map<String, dynamic> json) => CartsModel(
         id: json["id"],
         products: json["products"] == null ? [] : List<Product>.from(json["products"]!.map((x) => Product.fromJson(x))),
         total: json["total"],

@@ -20,7 +20,7 @@ class _WelcomePageState extends State<WelcomePage> {
   String phoneNumber = "";
   List<Widget> pages = [
     const home(),
-    const Categories(),
+    Categories(),
     const Settings(),
   ];
 
